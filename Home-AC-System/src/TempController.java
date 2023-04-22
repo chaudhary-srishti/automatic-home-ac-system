@@ -10,8 +10,6 @@ public class TempController {
     private boolean heaterAck;  //Event to be sent to the heater
 
     //inputs
-    private int setMode;
-    private int setTemp;
     private int avgTemp;
 
     /**
@@ -47,15 +45,13 @@ public class TempController {
         return (new boolean[]{false, false}); //turn off cooler, turn on heater
     }
 
-    public void setSetMode(int mode){
-        this.setMode = mode;
-        this.mode = this.setMode;
+    public void setMode(int setMode){
+        this.mode = setMode;
         update();
     }
 
-    public void setTemp(int temp){
-        this.setTemp = temp;
-        this.temp = this.setTemp;
+    public void setTemp(int setTemp){
+        this.temp = setTemp;
         update();
     }
 
