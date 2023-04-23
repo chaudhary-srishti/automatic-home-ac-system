@@ -1,4 +1,4 @@
-public class modeController {
+public class ModeController {
 
 	private int mode;
 
