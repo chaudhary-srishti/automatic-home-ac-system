@@ -6,9 +6,9 @@ public class FanController {
 
 	private static TempController tempController;
 
-	public FanController(TempController tempController) {
-		this.tempController = tempController;
-	}
+//	public FanController(TempController tempController) {
+//		this.tempController = tempController;
+//	}
 
 	public int getSpeed() {
 

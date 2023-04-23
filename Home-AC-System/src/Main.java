@@ -9,7 +9,7 @@ public class Main {
         TempController temp_controller = new TempController();
 
         //create instances of all controller class
-        FanController fan_controller = new FanController(temp_controller);
+        FanController fan_controller = new FanController();
         TempInputController temp_input_controller = new TempInputController();
         ModeController mode_controller = new ModeController();
 
@@ -17,7 +17,9 @@ public class Main {
         HumidityCollector humidity_collector = new HumidityCollector();
         TempController tempController = new TempController();
 
+        //define threads
 
+        //start while loop for 5 min
 
     }
 }

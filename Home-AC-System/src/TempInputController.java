@@ -10,7 +10,8 @@ public class TempInputController {
 	}
 
 	public void setTemp(int temp) {
-			this.temp = temp;
+
+		this.temp = temp;
 	}
 
 }

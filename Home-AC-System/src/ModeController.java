@@ -10,6 +10,7 @@ public class ModeController {
 	}
 
 	public void setMode(int mode) {
+
 		this.mode = mode;
 	}
 

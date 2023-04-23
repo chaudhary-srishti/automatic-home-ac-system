@@ -9,6 +9,8 @@ public class TempController {
     private boolean coolerAck;  //Event to be sent to the cooler
     private boolean heaterAck;  //Event to be sent to the heater
 
+    private TempInputController tempInputController;
+    private ModeController modeController;
     //inputs
     private int avgTemp;
 
@@ -16,8 +18,8 @@ public class TempController {
      * Class constructor
      */
     public TempController(){
-        this.mode = 0;
-        this.temp = 25;
+        this.mode = modeController.getMode();
+        this.temp = tempInputController.getTemp();
         this.coolerAck = false;
         this.heaterAck = false;
     }
@@ -30,18 +32,25 @@ public class TempController {
         //if in cool or auto mode
         if(mode == 1 || mode == 3){
             if(temp >= avgTemp + 1.5 && !coolerAck){
+                modeController.setMode(1);
+                //coolerAck = true;
                 return (new boolean[]{true, false}); //turn on cooler, turn off heater
             }
+            modeController.setMode(0);//turn of the cooler if the temp is desired temp
         }
 
         //if in heat or auto mode
         if(mode == 2 || mode == 3){
             if(temp <= avgTemp - 1.5 && !coolerAck){
+                modeController.setMode(2);
+                //heaterAck =true;
                 return (new boolean[]{false, true}); //turn off cooler, turn on heater
             }
+            modeController.setMode(0);//turn of heater if the desired temp is reached
         }
 
         //this statement is only reachable if mode == 0
+        modeController.setMode(1);//turn on cooler
         return (new boolean[]{false, false}); //turn off cooler, turn on heater
     }
 
