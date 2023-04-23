@@ -17,16 +17,21 @@ public class EnviroSim {
     private boolean heaterOn;
     private boolean coolerOn;
 
+    private TempCollector tempCollector;
+    private TempController tempController;
+
     /**
      * Class Constructor
      * @param temp          initial room temp
      * @param humidity      initial room humidity
      * @param outsideTemp   the temperature outside the room
      */
-    public EnviroSim(int temp, int humidity, int outsideTemp){
+    public EnviroSim(int temp, int humidity, int outsideTemp, TempCollector tempCollector, TempController tempController){
         this.roomTemp = temp;
         this.roomHumidity = humidity;
         this.outsideTemp = outsideTemp;
+        this.tempCollector = tempCollector;
+        this.tempController = tempController;
         tempChange = 0.00;
         heaterOn = false;
         coolerOn = false;
@@ -37,8 +42,13 @@ public class EnviroSim {
      * @param time      Time to run the simulation for, in minutes
      */
     public void environmentSim(int time){
+        // Hardcoded user inputs for testing
+        this.tempController.setAvgTemp(25);
+        this.tempController.setTemp(18);
+        this.tempController.setMode(1);
+
         try{
-            for(int i = 0; i < time  * 120; i++){
+            for(int i = 0; i < time * 120; i++){
                 //The room temperature should always rise/fall to meet the outside temperature, but not too quickly
                 //Using min will limit the rate at which the temperature changes
                 if((double)(outsideTemp - roomTemp) >= 0){
@@ -49,19 +59,35 @@ public class EnviroSim {
                 }
 
                 //heater can only affect the room temp if it is on and if the room temp isn't higher than the max heat of the heater
-                if(heaterOn && roomTemp > 37.78){
+                if(heaterOn && roomTemp < 37.78){
                     tempChange = 0.1;
                 }
                 //cooler can only affect the room temp if it is on and if the room temp isn't lower than the max cooling of the cooler
-                if(coolerOn && roomTemp < 15.56){
+                if(coolerOn && roomTemp > 15.56){
                     tempChange = -0.1;
                 }
 
                 //change the room temperature
                 roomTemp += tempChange;
 
-                System.out.println(roomTemp);   //for display purposes in the console
-                Thread.sleep(5000);       //update every half second
+                // Start Temperature change thread
+                var tempThread = new TempCollectorThread((int) roomTemp, this.tempCollector, this.tempController);
+                tempThread.start();
+
+                // Get the state of the cooler from TempController
+                boolean coolerState = this.tempController.getCoolerState();
+                // Get the state of the heater from TempController
+                boolean heaterState = this.tempController.getHeaterState();
+
+                setCooler(coolerState);
+                setHeater(heaterState);
+
+                System.out.println("Iteration: " + i+1);
+                System.out.println("Room Temperature: " + roomTemp);
+                System.out.println("Cooler State: " + coolerState);
+                System.out.println("=================================");
+
+                Thread.sleep(1000);       //update every half second
             }
         }
         catch(Exception e){

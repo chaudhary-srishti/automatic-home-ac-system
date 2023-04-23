@@ -6,20 +6,25 @@ public class Main {
     public static void main(String[] args){
 
         //create instance of main component TempController
-        TempController temp_controller = new TempController();
+        TempController tempController = new TempController();
 
         //create instances of all controller class
-        FanController fan_controller = new FanController();
-        TempInputController temp_input_controller = new TempInputController();
-        ModeController mode_controller = new ModeController();
+        FanController fanController = new FanController();
+        TempInputController tempInputController = new TempInputController();
+        ModeController modeController = new ModeController();
 
         //create instances for data collectors
-        HumidityCollector humidity_collector = new HumidityCollector();
-        TempController tempController = new TempController();
+        HumidityCollector humidityCollector = new HumidityCollector();
+        TempCollector tempCollector = new TempCollector(tempController);
+
+        EnviroSim simulator = new EnviroSim(25, 20, 25, tempCollector, tempController);
 
         //define threads
 
+
         //start while loop for 5 min
+
+        simulator.environmentSim(5);
 
     }
 }

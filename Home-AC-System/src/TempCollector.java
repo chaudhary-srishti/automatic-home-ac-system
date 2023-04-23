@@ -17,7 +17,7 @@ public class TempCollector {
     /**
      * Class constructor
      */
-    public TempCollector(){
+    public TempCollector(TempController tempController){
         this.sum = 0;
         this.round = 0;
         temperatures = Collections.emptyList();
@@ -28,17 +28,16 @@ public class TempCollector {
      * @return   The avTemp at every 30th round and -1 otherwise
      */
     public int sendTempValue(int temp) {
-        this.round += 1;
-        this.sum += temp;
+        round += 1;
+        sum += temp;
 
-        if (this.round == 30) {
-            this.avTemp = this.sum/this.round;
-            this.round = 0;
-
-            return this.avTemp;
+        if (round == 30) {
+            avTemp = sum/30;
+            round = 0;
+            return avTemp;
+        } else {
+            return -1;
         }
-
-        return -1;
     }
 
 }

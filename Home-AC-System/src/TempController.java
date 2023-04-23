@@ -8,9 +8,6 @@ public class TempController {
     private int temp;           //Current room temperature
     private boolean coolerAck;  //Event to be sent to the cooler
     private boolean heaterAck;  //Event to be sent to the heater
-
-    private TempInputController tempInputController;
-    private ModeController modeController;
     //inputs
     private int avgTemp;
 
@@ -18,8 +15,8 @@ public class TempController {
      * Class constructor
      */
     public TempController(){
-        this.mode = modeController.getMode();
-        this.temp = tempInputController.getTemp();
+        this.mode = 1;
+        this.temp = 25;
         this.coolerAck = false;
         this.heaterAck = false;
     }
@@ -31,26 +28,29 @@ public class TempController {
     public boolean[] update(){
         //if in cool or auto mode
         if(mode == 1 || mode == 3){
-            if(temp >= avgTemp + 1.5 && !coolerAck){
-                modeController.setMode(1);
-                //coolerAck = true;
+            if(temp <= avgTemp - 1.5 && !coolerAck){
+                coolerAck = true;
+                heaterAck = false;
                 return (new boolean[]{true, false}); //turn on cooler, turn off heater
+            } else if (coolerAck) {
+                coolerAck = false;
             }
-            modeController.setMode(0);//turn of the cooler if the temp is desired temp
         }
 
         //if in heat or auto mode
         if(mode == 2 || mode == 3){
-            if(temp <= avgTemp - 1.5 && !coolerAck){
-                modeController.setMode(2);
-                //heaterAck =true;
+            if(temp >= avgTemp + 1.5 && !heaterAck){
+                coolerAck = false;
+                heaterAck = true;
                 return (new boolean[]{false, true}); //turn off cooler, turn on heater
+            } else if (heaterAck) {
+                heaterAck = false;
             }
-            modeController.setMode(0);//turn of heater if the desired temp is reached
         }
 
         //this statement is only reachable if mode == 0
-        modeController.setMode(1);//turn on cooler
+//        coolerAck = false;
+//        heaterAck = false;
         return (new boolean[]{false, false}); //turn off cooler, turn on heater
     }
 
@@ -65,7 +65,7 @@ public class TempController {
     }
 
     public void setAvgTemp(int temp){
-        this.avgTemp = temp;
+        avgTemp = temp;
         update();
     }
 
@@ -76,4 +76,8 @@ public class TempController {
     public int getTemp(){
         return this.temp;
     }
+
+    public boolean getCoolerState() { return this.coolerAck; }
+
+    public boolean getHeaterState() { return this.heaterAck; }
 }
