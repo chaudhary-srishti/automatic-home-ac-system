@@ -1,4 +1,4 @@
-public class tempInputController {
+public class TempInputController {
 
 	private int temp;
 
