@@ -114,7 +114,7 @@ public class EnviroSim {
                 System.out.println("Cooler State: " + coolerState);
                 System.out.println("=================================");
 
-                Thread.sleep(1000);       //update every half second
+                Thread.sleep(500);       //update every half second
             }
         }
         catch(Exception e){
