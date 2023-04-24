@@ -19,7 +19,7 @@ public class Main {
 
         Thermostat thermostat = new Thermostat(modeController, tempInputController);
 
-        EnviroSim simulator = new EnviroSim(25, 20, 25, tempCollector, tempController, modeController, tempInputController, humidityCollector, thermostat);
+        EnviroSim simulator = new EnviroSim(25, 25, tempCollector, tempController, modeController, tempInputController, humidityCollector, thermostat);
 
         // Start the simulation
         simulator.environmentSim(5);

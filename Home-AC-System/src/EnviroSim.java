@@ -5,7 +5,8 @@
  * There is a simulated highest/lowest temperature that the AC can reach F: (60/100) C:(15.56/37.78)
  */
 
-import java.io.*;
+import java.util.*;
+import java.lang.*;
 import java.lang.Thread;
 
 public class EnviroSim {
@@ -27,13 +28,9 @@ public class EnviroSim {
 
     /**
      * Class Constructor
-     * @param temp          initial room temp
-     * @param humidity      initial room humidity
-     * @param outsideTemp   the temperature outside the room
      */
-    public EnviroSim(int temp, int humidity, int outsideTemp, TempCollector tempCollector, TempController tempController, ModeController modeController, TempInputController tempInputController, HumidityCollector humidityCollector, Thermostat thermostat){
+    public EnviroSim(int temp, int outsideTemp, TempCollector tempCollector, TempController tempController, ModeController modeController, TempInputController tempInputController, HumidityCollector humidityCollector, Thermostat thermostat){
         this.roomTemp = temp;
-        this.roomHumidity = humidity;
         this.outsideTemp = outsideTemp;
         this.tempCollector = tempCollector;
         this.tempController = tempController;
@@ -84,6 +81,10 @@ public class EnviroSim {
 
                 //change the room temperature
                 roomTemp += tempChange;
+
+                //humidity runs on a sin wave, x value is determined by time
+                Date d = new Date();
+                roomHumidity = 20 * Math.sin(0.01 * (d.getTime() % 10000)) + 40; //% operator returns last 5 digits of time since epoch
 
                 // Start Temperature change thread
                 Thread tempThread = new TempCollectorThread((int) roomTemp, this.tempCollector, this.tempController);
