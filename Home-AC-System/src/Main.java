@@ -10,20 +10,19 @@ public class Main {
 
         //create instances of all controller class
         FanController fanController = new FanController();
-        TempInputController tempInputController = new TempInputController();
-        ModeController modeController = new ModeController();
+        TempInputController tempInputController = new TempInputController(tempController);
+        ModeController modeController = new ModeController(tempController);
 
         //create instances for data collectors
         HumidityCollector humidityCollector = new HumidityCollector();
         TempCollector tempCollector = new TempCollector(tempController);
 
-        EnviroSim simulator = new EnviroSim(25, 20, 25, tempCollector, tempController);
+        Thermostat thermostat = new Thermostat(modeController, tempInputController);
 
-        //define threads
+        EnviroSim simulator = new EnviroSim(25, 20, 25, tempCollector, tempController, modeController, tempInputController, humidityCollector, thermostat);
 
 
-        //start while loop for 5 min
-
+        // Start the simulation
         simulator.environmentSim(5);
 
     }

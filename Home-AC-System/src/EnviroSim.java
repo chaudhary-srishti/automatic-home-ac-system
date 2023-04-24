@@ -19,6 +19,11 @@ public class EnviroSim {
 
     private TempCollector tempCollector;
     private TempController tempController;
+    private ModeController modeController;
+    private TempInputController tempInputController;
+    private HumidityCollector humidityCollector;
+
+    private Thermostat thermostat;
 
     /**
      * Class Constructor
@@ -26,12 +31,16 @@ public class EnviroSim {
      * @param humidity      initial room humidity
      * @param outsideTemp   the temperature outside the room
      */
-    public EnviroSim(int temp, int humidity, int outsideTemp, TempCollector tempCollector, TempController tempController){
+    public EnviroSim(int temp, int humidity, int outsideTemp, TempCollector tempCollector, TempController tempController, ModeController modeController, TempInputController tempInputController, HumidityCollector humidityCollector, Thermostat thermostat){
         this.roomTemp = temp;
         this.roomHumidity = humidity;
         this.outsideTemp = outsideTemp;
         this.tempCollector = tempCollector;
         this.tempController = tempController;
+        this.modeController = modeController;
+        this.tempInputController = tempInputController;
+        this.humidityCollector = humidityCollector;
+        this.thermostat = thermostat;
         tempChange = 0.00;
         heaterOn = false;
         coolerOn = false;
@@ -42,13 +51,19 @@ public class EnviroSim {
      * @param time      Time to run the simulation for, in minutes
      */
     public void environmentSim(int time){
-        // Hardcoded user inputs for testing
-        this.tempController.setAvgTemp(25);
-        this.tempController.setTemp(18);
-        this.tempController.setMode(1);
+
+        thermostat.printState();
+        tempController.setAvgTemp(25);
+
+        var thermostatThread = new ThermostatThread(this.tempController, this.thermostat);
+        thermostatThread.start();
 
         try{
             for(int i = 0; i < time * 120; i++){
+
+                System.out.println("");
+                System.out.println("Iteration: " + i+1);
+
                 //The room temperature should always rise/fall to meet the outside temperature, but not too quickly
                 //Using min will limit the rate at which the temperature changes
                 if((double)(outsideTemp - roomTemp) >= 0){
@@ -74,6 +89,13 @@ public class EnviroSim {
                 var tempThread = new TempCollectorThread((int) roomTemp, this.tempCollector, this.tempController);
                 tempThread.start();
 
+                try {
+                    thermostatThread.join();
+                    tempThread.join();
+                } catch ( Exception e) {
+                    System.out.println("Interrupted");
+                }
+
                 // Get the state of the cooler from TempController
                 boolean coolerState = this.tempController.getCoolerState();
                 // Get the state of the heater from TempController
@@ -82,8 +104,9 @@ public class EnviroSim {
                 setCooler(coolerState);
                 setHeater(heaterState);
 
-                System.out.println("Iteration: " + i+1);
-                System.out.println("Room Temperature: " + roomTemp);
+                thermostat.printState();
+                System.out.println("========= Env State ========");
+                System.out.println("Room Temperature: " + tempController.getAvgTemp());
                 System.out.println("Cooler State: " + coolerState);
                 System.out.println("=================================");
 

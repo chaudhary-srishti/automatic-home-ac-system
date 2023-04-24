@@ -34,6 +34,7 @@ public class TempCollector {
         if (round == 30) {
             avTemp = sum/30;
             round = 0;
+            sum = 0;
             return avTemp;
         } else {
             return -1;

@@ -26,6 +26,9 @@ public class TempController {
      * @return      A boolean array with the elements representing coolerOn and heaterOn respectively
      */
     public boolean[] update(){
+
+        System.out.println(avgTemp);
+
         //if in cool or auto mode
         if(mode == 1 || mode == 3){
             if(temp <= avgTemp - 1.5 && !coolerAck){
@@ -80,4 +83,8 @@ public class TempController {
     public boolean getCoolerState() { return this.coolerAck; }
 
     public boolean getHeaterState() { return this.heaterAck; }
+
+    public int getAvgTemp() {
+        return avgTemp;
+    }
 }
