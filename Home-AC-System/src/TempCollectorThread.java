@@ -4,14 +4,20 @@
 public class TempCollectorThread extends Thread {
 
     private Thread thread;
-    private int temp;
+    private double temp;
+    private int humidity;
     private TempCollector tempCollector;
     private TempController tempController;
+    private HumidityCollector humidityCollector;
+    private Thermostat thermostat;
 
-    TempCollectorThread(int temp, TempCollector tempCollector, TempController tempController) {
+    TempCollectorThread(double temp, int humidity, TempCollector tempCollector, TempController tempController, HumidityCollector humidityCollector, Thermostat thermostat) {
         this.temp = temp;
+        this.humidity = humidity;
         this.tempCollector = tempCollector;
         this.tempController = tempController;
+        this.thermostat = thermostat;
+        this.humidityCollector = humidityCollector;
     }
 
     public void run() {
@@ -21,6 +27,13 @@ public class TempCollectorThread extends Thread {
             if (avTemp != -1) {
                 // Set avTemp to trigger cooler and heater
                 this.tempController.setAvgTemp(avTemp);
+                this.thermostat.setRoomTemp(avTemp);
+            }
+
+            int avHumidity = this.humidityCollector.sendHumidityValue(humidity);
+            if (avHumidity != -1) {
+                // Set avTemp to trigger cooler and heater
+                this.thermostat.setHumidity(avHumidity);
             }
         }
 

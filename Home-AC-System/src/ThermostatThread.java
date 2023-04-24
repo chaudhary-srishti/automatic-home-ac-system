@@ -29,18 +29,19 @@ public class ThermostatThread extends Thread {
 
     public void run() {
 
-        thermostat.setMode(1);
+        thermostat.setMode(3);
 
         try {
             for (int i=1; i<=3; i++) {
 
                 if (i==1) {
-                    thermostat.setSetTemp(coolSetting1[1]);
+                    thermostat.setSetTemp(autoSetting1[1]);
                 } else if (i==2) {
-                    thermostat.setSetTemp(coolSetting2[1]);
-                } if (i==3) {
-                    thermostat.setSetTemp(coolSetting3[1]);
+                    thermostat.setSetTemp(autoSetting2[1]);
                 }
+//                if (i==3) {
+//                    thermostat.setSetTemp(heatSetting3[1]);
+//                }
 
                 Thread.sleep(1000 * 30);
 

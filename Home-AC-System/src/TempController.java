@@ -14,9 +14,10 @@ public class TempController {
     /**
      * Class constructor
      */
-    public TempController(){
+    public TempController(int avgTemp){
         this.mode = 1;
         this.temp = 25;
+        this.avgTemp = avgTemp;
         this.coolerAck = false;
         this.heaterAck = false;
     }
@@ -26,34 +27,34 @@ public class TempController {
      * @return      A boolean array with the elements representing coolerOn and heaterOn respectively
      */
     public boolean[] update(){
-
-        System.out.println(avgTemp);
+//        System.out.println(mode);
+//        System.out.println(temp);
+//        System.out.println(avgTemp);
+//        System.out.println(temp >= avgTemp + 1);
 
         //if in cool or auto mode
-        if(mode == 1 || mode == 3){
-            if(temp <= avgTemp - 1.5 && !coolerAck){
-                coolerAck = true;
-                heaterAck = false;
+        if(mode == 1 || mode == 3) {
+            if(temp <= avgTemp - 1 && !coolerAck){
+                setCoolerAck(true);
+                setHeaterAck(false);
                 return (new boolean[]{true, false}); //turn on cooler, turn off heater
-            } else if (coolerAck) {
+            } else if (temp > avgTemp - 1  && coolerAck) {
                 coolerAck = false;
             }
         }
 
         //if in heat or auto mode
-        if(mode == 2 || mode == 3){
-            if(temp >= avgTemp + 1.5 && !heaterAck){
-                coolerAck = false;
-                heaterAck = true;
+        if(mode == 2 || mode == 3) {
+            if(temp >= avgTemp + 1 && !heaterAck){
+                setCoolerAck(false);
+                setHeaterAck(true);
                 return (new boolean[]{false, true}); //turn off cooler, turn on heater
-            } else if (heaterAck) {
+            } else if (temp < avgTemp + 1  && heaterAck) {
                 heaterAck = false;
             }
         }
 
         //this statement is only reachable if mode == 0
-//        coolerAck = false;
-//        heaterAck = false;
         return (new boolean[]{false, false}); //turn off cooler, turn on heater
     }
 
@@ -78,6 +79,14 @@ public class TempController {
 
     public int getTemp(){
         return this.temp;
+    }
+
+    public void setCoolerAck(boolean coolerAck) {
+        this.coolerAck = coolerAck;
+    }
+
+    public void setHeaterAck(boolean heaterAck) {
+        this.heaterAck = heaterAck;
     }
 
     public boolean getCoolerState() { return this.coolerAck; }

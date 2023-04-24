@@ -1,18 +1,21 @@
 public class FanController {
 
-	private int fanSpeed;
+	private boolean fanState;
 
 	private int counter;
 
 	private static TempController tempController;
 
-	public int getSpeed() {
-
-		return this.fanSpeed;
+	FanController() {
+		this.fanState = true;
 	}
 
-	public void setSpeed(int speed) {
-		this.fanSpeed = speed;
+	public boolean getFanState() {
+		return this.fanState;
+	}
+
+	public void setFanState(boolean state) {
+		this.fanState = state;
 	}
 
 }

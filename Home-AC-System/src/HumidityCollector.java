@@ -25,17 +25,17 @@ public class HumidityCollector {
      * Function to get the current room humidity and calculate the average humidity over 30 rounds or 30 secs
      * @return   The avHumidity at every 30th round and -1 otherwise
      */
-    public int sendHumidityValue(int temp) {
-        this.round += 1;
-        this.sum += temp;
+    public int sendHumidityValue(int humidity) {
+        round += 1;
+        sum += humidity;
 
-        if (this.round == 30) {
-            this.avHumidity = this.sum/this.round;
-            this.round = 0;
-
-            return this.avHumidity;
+        if (round == 5) {
+            avHumidity = sum/5;
+            round = 0;
+            sum = 0;
+            return avHumidity;
+        } else {
+            return -1;
         }
-
-        return -1;
     }
 }

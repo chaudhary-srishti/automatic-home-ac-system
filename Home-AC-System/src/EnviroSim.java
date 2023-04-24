@@ -23,13 +23,13 @@ public class EnviroSim {
     private ModeController modeController;
     private TempInputController tempInputController;
     private HumidityCollector humidityCollector;
-
+    private FanController fanController;
     private Thermostat thermostat;
 
     /**
      * Class Constructor
      */
-    public EnviroSim(int temp, int outsideTemp, TempCollector tempCollector, TempController tempController, ModeController modeController, TempInputController tempInputController, HumidityCollector humidityCollector, Thermostat thermostat){
+    public EnviroSim(int temp, int outsideTemp, TempCollector tempCollector, TempController tempController, ModeController modeController, TempInputController tempInputController, HumidityCollector humidityCollector, Thermostat thermostat, FanController fanController){
         this.roomTemp = temp;
         this.outsideTemp = outsideTemp;
         this.tempCollector = tempCollector;
@@ -37,6 +37,7 @@ public class EnviroSim {
         this.modeController = modeController;
         this.tempInputController = tempInputController;
         this.humidityCollector = humidityCollector;
+        this.fanController = fanController;
         this.thermostat = thermostat;
         tempChange = 0.00;
         heaterOn = false;
@@ -48,7 +49,6 @@ public class EnviroSim {
      * @param time      Time to run the simulation for, in minutes
      */
     public void environmentSim(int time){
-        tempController.setAvgTemp(25);
 
         Thread thermostatThread = new ThermostatThread(this.tempController, this.thermostat);
         thermostatThread.start();
@@ -87,7 +87,7 @@ public class EnviroSim {
                 roomHumidity = 20 * Math.sin(0.007 * i - humidityOffset) + 40;
 
                 // Start Temperature change thread
-                Thread tempThread = new TempCollectorThread((int) roomTemp, this.tempCollector, this.tempController);
+                Thread tempThread = new TempCollectorThread(roomTemp, (int) roomHumidity, this.tempCollector, this.tempController, this.humidityCollector, this.thermostat);
                 tempThread.start();
 
                 try {
@@ -108,11 +108,11 @@ public class EnviroSim {
                 thermostat.printState();
 
                 //print environment state
-                System.out.println("=========== Env State ===========");
-                System.out.println("Room Temperature: " + tempController.getAvgTemp());
+                System.out.println("================= Env State ======================================");
+                System.out.printf("Room Temperature: %.2f \n", roomTemp);
                 System.out.printf("Room Humidity: %.2f \n", roomHumidity);
-                System.out.println("Cooler State: " + coolerState);
-                System.out.println("=================================");
+                System.out.println("Cooler: " + coolerState + "    Heater: " + heaterState + "    Fan: " + fanController.getFanState());
+                System.out.println("==================================================================");
 
                 Thread.sleep(500);       //update every half second
             }
