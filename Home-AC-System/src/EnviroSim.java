@@ -48,12 +48,14 @@ public class EnviroSim {
      * @param time      Time to run the simulation for, in minutes
      */
     public void environmentSim(int time){
-
         thermostat.printState();
         tempController.setAvgTemp(25);
 
         Thread thermostatThread = new ThermostatThread(this.tempController, this.thermostat);
         thermostatThread.start();
+
+        Random rand = new Random();
+        int humidityOffset = rand.nextInt(20);
 
         try{
             for(int i = 0; i < time * 120; i++){
@@ -82,9 +84,8 @@ public class EnviroSim {
                 //change the room temperature
                 roomTemp += tempChange;
 
-                //humidity runs on a sin wave, x value is determined by time
-                Date d = new Date();
-                roomHumidity = 20 * Math.sin(0.01 * (d.getTime() % 10000)) + 40; //% operator returns last 5 digits of time since epoch
+                //humidity runs on a sin wave
+                roomHumidity = 20 * Math.sin(0.007 * i - humidityOffset) + 40;
 
                 // Start Temperature change thread
                 Thread tempThread = new TempCollectorThread((int) roomTemp, this.tempCollector, this.tempController);
@@ -108,6 +109,7 @@ public class EnviroSim {
                 thermostat.printState();
                 System.out.println("========= Env State ========");
                 System.out.println("Room Temperature: " + tempController.getAvgTemp());
+                System.out.printf("Room Humidity: %.2f \n", roomHumidity);
                 System.out.println("Cooler State: " + coolerState);
                 System.out.println("=================================");
 

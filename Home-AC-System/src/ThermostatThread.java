@@ -32,7 +32,7 @@ public class ThermostatThread extends Thread {
         thermostat.setMode(1);
 
         try {
-            for (var i=1; i<=3; i++) {
+            for (int i=1; i<=3; i++) {
 
                 if (i==1) {
                     thermostat.setSetTemp(coolSetting1[1]);
