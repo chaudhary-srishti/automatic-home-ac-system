@@ -48,7 +48,6 @@ public class EnviroSim {
      * @param time      Time to run the simulation for, in minutes
      */
     public void environmentSim(int time){
-        thermostat.printState();
         tempController.setAvgTemp(25);
 
         Thread thermostatThread = new ThermostatThread(this.tempController, this.thermostat);
@@ -61,7 +60,7 @@ public class EnviroSim {
             for(int i = 0; i < time * 120; i++){
 
                 System.out.println("");
-                System.out.println("Iteration: " + i+1);
+                System.out.println("Iteration: " + (int)(i + 1));
 
                 //The room temperature should always rise/fall to meet the outside temperature, but not too quickly
                 //Using min will limit the rate at which the temperature changes
@@ -107,7 +106,9 @@ public class EnviroSim {
                 setHeater(heaterState);
 
                 thermostat.printState();
-                System.out.println("========= Env State ========");
+
+                //print environment state
+                System.out.println("=========== Env State ===========");
                 System.out.println("Room Temperature: " + tempController.getAvgTemp());
                 System.out.printf("Room Humidity: %.2f \n", roomHumidity);
                 System.out.println("Cooler State: " + coolerState);

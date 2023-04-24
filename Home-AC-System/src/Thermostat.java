@@ -55,7 +55,7 @@ public class Thermostat {
 
     public void printState() {
         System.out.println("");
-        System.out.println("========= Thermostat ========");
+        System.out.println("=========== Thermostat ==========");
         System.out.println("Desired Temp: " + getSetTemp());
         System.out.println("Desired Mode: " + getMode());
         System.out.println("Fan: " + isFanON());
