@@ -55,7 +55,7 @@ public class EnviroSim {
         thermostat.printState();
         tempController.setAvgTemp(25);
 
-        var thermostatThread = new ThermostatThread(this.tempController, this.thermostat);
+        Thread thermostatThread = new ThermostatThread(this.tempController, this.thermostat);
         thermostatThread.start();
 
         try{
@@ -86,7 +86,7 @@ public class EnviroSim {
                 roomTemp += tempChange;
 
                 // Start Temperature change thread
-                var tempThread = new TempCollectorThread((int) roomTemp, this.tempCollector, this.tempController);
+                Thread tempThread = new TempCollectorThread((int) roomTemp, this.tempCollector, this.tempController);
                 tempThread.start();
 
                 try {
