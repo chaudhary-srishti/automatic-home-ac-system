@@ -33,8 +33,8 @@ public class ThermostatThread extends Thread {
             String line = br.readLine();
             while(line != null)
             {
-                List<String> lineData = Arrays.asList(line.split(","));//splitting lines
-                System.out.println("mode :" + data[0]);
+                //int mode = line.split(",");//splitting lines
+                System.out.println("*********** mode ***************" + data[0]);
                 line = br.readLine();
             }
             br.close();
@@ -43,25 +43,25 @@ public class ThermostatThread extends Thread {
             System.out.print(e);
         }
 
-        try {
-            for (int i=1; i<=3; i++) {
-
-
-//                if (i==1) {
-//                    thermostat.setSetTemp(autoSetting1[1]);
-//                } else if (i==2) {
-//                    thermostat.setSetTemp(autoSetting2[1]);
-//                }
-////                if (i==3) {
-////                    thermostat.setSetTemp(heatSetting3[1]);
+//        try {
+//            for (int i=1; i<=3; i++) {
+//
+//
+////                if (i==1) {
+////                    thermostat.setSetTemp(autoSetting1[1]);
+////                } else if (i==2) {
+////                    thermostat.setSetTemp(autoSetting2[1]);
 ////                }
-
-                Thread.sleep(1000 * 30);
-
-            }
-        } catch (InterruptedException e) {
-            System.out.println(e);
-        }
+//////                if (i==3) {
+//////                    thermostat.setSetTemp(heatSetting3[1]);
+//////                }
+//
+//                Thread.sleep(1000 * 30);
+//
+//            }
+//        } catch (InterruptedException e) {
+//            System.out.println(e);
+//        }
 
     }
 
