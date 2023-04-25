@@ -25,7 +25,7 @@ public class ThermostatThread extends Thread {
 
 
         try {
-            String file = "/Users/aakankshadesai/Documents/GitHub/automatic-home-ac-system/Home-AC-System/Data/inputOne.txt";//file path
+            String file = "Home-AC-System/src/dataFiles/testCase1.txt";//file path
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
 
@@ -35,6 +35,11 @@ public class ThermostatThread extends Thread {
                 String[] data = line.split(", ");
                 thermostat.setMode(Integer.parseInt(data[0]));
                 thermostat.setSetTemp(Integer.parseInt(data[1]));
+                if (data.length > 2) {
+                    thermostat.setFanON(Boolean.parseBoolean(data[2]));
+                }
+
+                Thread.sleep(1000 * 30);
                 line = br.readLine();
             }
             br.close();

@@ -11,8 +11,9 @@ public class Thermostat {
 
     private ModeController modeController;
     private TempInputController tempInputController;
+    private FanController fanController;
 
-    Thermostat(int avTemp, ModeController modeController, TempInputController tempInputController) {
+    Thermostat(int avTemp, ModeController modeController, TempInputController tempInputController, FanController fanController) {
         this.mode = 1;
         this.setTemp = 24;
         this.roomTemp = avTemp;
@@ -20,6 +21,7 @@ public class Thermostat {
         this.fanON = true;
         this.modeController = modeController;
         this.tempInputController = tempInputController;
+        this.fanController = fanController;
     }
 
     public void setMode(int mode) {
@@ -62,6 +64,7 @@ public class Thermostat {
 
     public void setFanON(boolean fanON) {
         this.fanON = fanON;
+        fanController.setFanState(fanON);
     }
 
     public boolean isFanON() {
