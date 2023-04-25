@@ -34,7 +34,7 @@ public class ThermostatThread extends Thread {
             {
                 String[] data = line.split(", ");
                 thermostat.setMode(Integer.parseInt(data[0]));
-                thermostat.setSetTemp(Integer.parseInt(data[0]));
+                thermostat.setSetTemp(Integer.parseInt(data[1]));
                 line = br.readLine();
             }
             br.close();

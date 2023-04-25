@@ -88,7 +88,7 @@ public class EnviroSim {
 
                 // Start Temperature change thread
                 Thread tempThread = new TempCollectorThread(roomTemp, (int) roomHumidity, this.tempCollector, this.tempController, this.humidityCollector, this.thermostat);
-                tempThread.start();
+                tempThread.run();
 
                 try {
                     thermostatThread.join();
