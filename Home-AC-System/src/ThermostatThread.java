@@ -2,36 +2,28 @@
  * @author srishtichaudhary
  */
 
-import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
-public class ThermostatThread extends Thread {
 
+public class ThermostatThread extends Thread{
     private Thread thread;
 
     private TempController tempController;
     private Thermostat thermostat;
-
 
     ThermostatThread(TempController tempController, Thermostat thermostat) {
         this.tempController = tempController;
         this.thermostat = thermostat;
     }
 
-    public void run() {
-
-
+    public void run(){
         try {
             String file = "Home-AC-System/src/dataFiles/testCase1.txt";//file path
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
 
             String line = br.readLine();
-            while(line != null)
-            {
+            while(line != null){
                 String[] data = line.split(", ");
                 thermostat.setMode(Integer.parseInt(data[0]));
                 thermostat.setSetTemp(Integer.parseInt(data[1]));
@@ -43,11 +35,10 @@ public class ThermostatThread extends Thread {
                 line = br.readLine();
             }
             br.close();
-        } catch(Exception e)
-        {
+        }
+        catch(Exception e)        {
             System.out.print(e);
         }
-
     }
 
     public void start() {

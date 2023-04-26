@@ -2,7 +2,6 @@
  * @author srishtichaudhary
  */
 public class TempCollectorThread extends Thread {
-
     private Thread thread;
     private double temp;
     private int humidity;
@@ -36,7 +35,6 @@ public class TempCollectorThread extends Thread {
                 this.thermostat.setHumidity(avHumidity);
             }
         }
-
     }
 
     public void start() {
@@ -45,5 +43,4 @@ public class TempCollectorThread extends Thread {
             thread.start();
         }
     }
-
 }

@@ -2,10 +2,6 @@ public class FanController {
 
 	private boolean fanState;
 
-	private int counter;
-
-	private static TempController tempController;
-
 	FanController() {
 		this.fanState = true;
 	}

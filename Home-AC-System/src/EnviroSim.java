@@ -58,7 +58,6 @@ public class EnviroSim {
 
         try{
             for(int i = 0; i < time * 120; i++){
-
                 System.out.println("");
                 System.out.println("Iteration: " + (int)(i + 1));
 
@@ -136,13 +135,5 @@ public class EnviroSim {
      */
     public void setCooler(boolean coolerOn){
         this.coolerOn = coolerOn;
-    }
-
-    public double getTemp(){
-        return this.roomTemp;
-    }
-
-    public double getHumidity(){
-        return this.roomHumidity;
     }
 }

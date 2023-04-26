@@ -8,6 +8,7 @@ public class TempController {
     private int temp;           //Current room temperature
     private boolean coolerAck;  //Event to be sent to the cooler
     private boolean heaterAck;  //Event to be sent to the heater
+
     //inputs
     private int avgTemp;
 
@@ -24,20 +25,13 @@ public class TempController {
 
     /**
      * Update function, called any time setMode, setTemp, or avgTemp are changed
-     * @return      A boolean array with the elements representing coolerOn and heaterOn respectively
      */
-    public boolean[] update(){
-//        System.out.println(mode);
-//        System.out.println(temp);
-//        System.out.println(avgTemp);
-//        System.out.println(temp >= avgTemp + 1);
-
+    public void update(){
         //if in cool or auto mode
         if(mode == 1 || mode == 3) {
             if(temp <= avgTemp - 1 && !coolerAck){
                 setCoolerAck(true);
                 setHeaterAck(false);
-                return (new boolean[]{true, false}); //turn on cooler, turn off heater
             } else if (temp > avgTemp - 1  && coolerAck) {
                 coolerAck = false;
             }
@@ -48,14 +42,14 @@ public class TempController {
             if(temp >= avgTemp + 1 && !heaterAck){
                 setCoolerAck(false);
                 setHeaterAck(true);
-                return (new boolean[]{false, true}); //turn off cooler, turn on heater
             } else if (temp < avgTemp + 1  && heaterAck) {
                 heaterAck = false;
             }
         }
 
         //this statement is only reachable if mode == 0
-        return (new boolean[]{false, false}); //turn off cooler, turn on heater
+        setCoolerAck(false);
+        setHeaterAck(false);
     }
 
     public void setMode(int setMode){
@@ -73,14 +67,6 @@ public class TempController {
         update();
     }
 
-    public int getMode(){
-        return this.mode;
-    }
-
-    public int getTemp(){
-        return this.temp;
-    }
-
     public void setCoolerAck(boolean coolerAck) {
         this.coolerAck = coolerAck;
     }
@@ -92,8 +78,4 @@ public class TempController {
     public boolean getCoolerState() { return this.coolerAck; }
 
     public boolean getHeaterState() { return this.heaterAck; }
-
-    public int getAvgTemp() {
-        return avgTemp;
-    }
 }

@@ -5,7 +5,6 @@ import java.util.*;
  */
 
 public class TempCollector {
-
     // state variables
     private double sum;
     private int round;
@@ -40,5 +39,4 @@ public class TempCollector {
             return -1;
         }
     }
-
 }

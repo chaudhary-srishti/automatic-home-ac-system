@@ -2,7 +2,6 @@
  * @author srishtichaudhary
  */
 public class Thermostat {
-
     private int mode;
     private int setTemp;
     private int roomTemp;

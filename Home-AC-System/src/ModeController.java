@@ -1,8 +1,5 @@
 public class ModeController {
-
 	private int mode;
-
-	private int counter;
 
 	private TempController tempController;
 
@@ -10,13 +7,8 @@ public class ModeController {
 		this.tempController = tempController;
 	}
 
-	public int getMode() {
-		return this.mode;
-	}
-
 	public void setMode(int mode) {
 		this.mode = mode;
 		this.tempController.setMode(mode);
 	}
-
 }

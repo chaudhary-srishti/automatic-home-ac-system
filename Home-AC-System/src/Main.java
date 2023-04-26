@@ -4,7 +4,6 @@
 
 public class Main {
     public static void main(String[] args){
-
         int mode = 1;
         int temp = 24;
 
@@ -28,6 +27,5 @@ public class Main {
 
         // Start the simulation
         simulator.environmentSim(5);
-
     }
 }

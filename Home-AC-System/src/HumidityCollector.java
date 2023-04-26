@@ -1,6 +1,3 @@
-import java.util.Collections;
-import java.util.List;
-
 /**
  * HumidityCollector - Middleman between humidity sensor and backend, provides average humidity
  */
