@@ -50,7 +50,7 @@ public class EnviroSim {
      */
     public void environmentSim(int time){
 
-        Thread thermostatThread = new ThermostatThread(this.tempController, this.thermostat);
+        Thread thermostatThread = new ThermostatThread(this.thermostat);
         thermostatThread.start();
 
         Random rand = new Random();
