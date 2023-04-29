@@ -5,9 +5,15 @@
 public class Main {
     public static void main(String[] args){
 
-        // Change the mode to the mode you want to test it for, this will allow the simulator to generate lower temperature for heat mode
-        // and higher temperature for cool mode ( COOL = 1, HEAT = 2, AUTO = 3)
-        int testMode = 1;
+        // Change the testCaseNum to test different case:
+        // Test Case 1: COOL Mode
+        // Test Case 2: COOL, series of temperature, Fan on/off
+        // Test Case 3: HEAT, series of temperature, Fan on/off
+        // Test Case 4: AUTO, series of temperature, Fan on/off
+
+        int testCaseNum = 3;
+        String testFile = "Home-AC-System/src/dataFiles/testCase" + testCaseNum + ".txt";
+        int testMode = (testCaseNum ==1 || testCaseNum == 2) ? 1 : testCaseNum == 3 ? 2 : 3;
         int initialTemp = testMode == 1 ? 30 : testMode == 2 ? 10 : 24;
 
         //create instance of main component TempController
@@ -27,6 +33,8 @@ public class Main {
         EnviroSim simulator = new EnviroSim(initialTemp, initialTemp, tempCollector, tempController, modeController, tempInputController, humidityCollector, thermostat, fanController);
 
         // Start the simulation
+        Thread thermostatThread = new ThermostatThread(testFile, tempController, thermostat);
+        thermostatThread.start();
         simulator.environmentSim(5);
     }
 }

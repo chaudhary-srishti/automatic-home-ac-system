@@ -50,9 +50,6 @@ public class EnviroSim {
      */
     public void environmentSim(int time){
 
-        Thread thermostatThread = new ThermostatThread(this.tempController, this.thermostat);
-        thermostatThread.start();
-
         Random rand = new Random();
         int humidityOffset = rand.nextInt(20);
 
@@ -88,13 +85,6 @@ public class EnviroSim {
                 // Start Temperature change thread
                 Thread tempThread = new TempCollectorThread(roomTemp, (int) roomHumidity, this.tempCollector, this.tempController, this.humidityCollector, this.thermostat);
                 tempThread.start();
-
-                try {
-                    thermostatThread.join();
-                    tempThread.join();
-                } catch ( Exception e) {
-                    System.out.println("Interrupted");
-                }
 
                 // Get the state of the cooler from TempController
                 boolean coolerState = this.tempController.getCoolerState();
