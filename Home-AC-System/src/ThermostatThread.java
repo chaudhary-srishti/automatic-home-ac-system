@@ -7,16 +7,18 @@ import java.io.FileReader;
 
 public class ThermostatThread extends Thread{
     private Thread thread;
+
+    private TempController tempController;
     private Thermostat thermostat;
 
-
-    ThermostatThread(Thermostat thermostat) {
+    ThermostatThread(TempController tempController, Thermostat thermostat) {
+        this.tempController = tempController;
         this.thermostat = thermostat;
     }
 
     public void run(){
         try {
-            String file = "Home-AC-System/src/dataFiles/testCase3.txt";//file path
+            String file = "Home-AC-System/src/dataFiles/testCase1.txt";//file path
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
 
